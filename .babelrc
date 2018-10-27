@@ -1,0 +1,14 @@
+{
+  "presets": [
+    "es2015",
+    "env",
+    "stage-2"
+  ],
+  "plugins": [
+    "istanbul",
+    "lodash",
+    "transform-es2015-spread",
+    "transform-object-rest-spread",
+    "transform-runtime"
+  ]
+}
