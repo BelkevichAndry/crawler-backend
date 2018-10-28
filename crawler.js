@@ -56,7 +56,8 @@ const init = async () => {
     const slicedFreq = sort(frequency);
 
     try {
-        const js = new Technology({name: "javascript", skills: slicedFreq});
+
+        const js = new Technology({name: "javascript", skills: JSON.stringify(slicedFreq)});
         const frq = new Frequency({name: "freq", total: found});
 
         return js.save().then((res) => {
