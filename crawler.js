@@ -55,14 +55,19 @@ const init = async () => {
 
     const slicedFreq = sort(frequency);
 
-    const js = new Technology({name: "javascript", skills: slicedFreq});
-    const frq = new Frequency({name: "javascript", total: found});
+    try {
+        const js = new Technology({name: "javascript", skills: slicedFreq});
+        const frq = new Frequency({name: "freq", total: found});
 
-    return js.save().then((res) => {
-        return res
-    }).then(()=>{
-        return frq.save().then(()=>{})
-    })
+        return js.save().then((res) => {
+            return res
+        }).then(()=>{
+            return frq.save().then(()=>{})
+        })
+    } catch (e) {
+        console.log(e)
+    }
+
 
 
 };
