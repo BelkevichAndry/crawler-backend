@@ -37,7 +37,7 @@ const init = async () => {
     const found = parserRes.found;
     const frequency = {};
     const pages = parserRes.pages;
-    for (let i = 1; i < 2; i++) {
+    for (let i = 1; i < pages; i++) {
         console.log(i);
         let data = await get(i);
         result.push(data);
