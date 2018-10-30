@@ -58,7 +58,7 @@ const init = async () => {
     try {
 
         const js = new Technology({name: "javascript", skills: JSON.stringify(slicedFreq)});
-        const frq = new Frequency({name: "freq", total: found});
+        const frq = new Frequency({name: "javascript", total: found});
 
         return js.save().then((res) => {
             return res
