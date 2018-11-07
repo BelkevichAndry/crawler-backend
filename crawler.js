@@ -31,6 +31,7 @@ async function get(page) {
 }
 
 const init = async () => {
+
     const res = await makeRequest(allVacancies);
     const parserRes = JSON.parse(res);
     const result = [];
