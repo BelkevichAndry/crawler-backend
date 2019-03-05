@@ -1,11 +1,11 @@
-import makeRequest from './services/http-service'
-
 import Technology from './databases/models/mongoose/technology'
 import Frequency from "./databases/models/mongoose/frequency";
 import sort from './utils/sort';
 import pg_technologies from './databases/queries/postgress/technologies/index'
 
 import get from './services/pages/page-scanner'
+import initial from './services/pages/initial-request'
+import frequency from './utils/frequency';
 
 const init = async () => {
 
@@ -14,48 +14,33 @@ const init = async () => {
     async function make() {
         for (let tech of technologies) {
 
-            let vacancyUrl = `https://api.hh.ru/vacancies?text=${tech.name}&per_page=100&page=1`;
-
-            const res = await makeRequest(vacancyUrl);
-            const parserRes = JSON.parse(res);
-            const result = [];
-            const found = parserRes.found;
-            const frequency = {};
-            const pages = parserRes.pages;
-            for (let i = 1; i < 2; i++) {
-                console.log(i);
-                let data = await get(i, vacancyUrl);
-                result.push(data);
-            }
-            const flat = result.flatten(2);
-
-            flat.forEach(skill => {
-                if (skill.name in frequency) {
-                    frequency[skill.name]++;
-                }
-                else {
-                    frequency[skill.name] = 1;
-                }
-            });
-
-            const slicedFreq = sort(frequency);
-
-            let technology;
-            let freq;
             try {
 
-                technology = new Technology({name: tech.name, skills: JSON.stringify(slicedFreq)});
-                freq = new Frequency({name: tech.name, total: found});
+                let vacancyUrl = `https://api.hh.ru/vacancies?text=${tech.name}`;
 
-                technology.save().then(()=>{})
-                freq.save().then(()=>{})
+                const generalInfo = await initial(vacancyUrl);
+                const {found: totalFound, pages: pagesAmount} = generalInfo;
+
+                const vacancies = [];
+
+                for (let i = 1; i < pagesAmount; i++) {
+                    let data = await get(i, vacancyUrl);
+                    vacancies.push(data);
+                }
+
+                const flat = vacancies.flatten(2);
+                const frequency = frequency(flat)
+
+                const sortedFreq = sort(frequency);
+                let technology = new Technology({name: tech.name, skills: JSON.stringify(sortedFreq)})
+                let freq = new Frequency({name: tech.name, total: totalFound});
+
+                await technology.save()
+                await freq.save()
             } catch (e) {
                 throw new Error(e)
             }
-
         }
-
-
     }
 
     return await make()
