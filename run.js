@@ -1,5 +1,9 @@
 
 import init from './crawler'
 import db from './databases/postgress-connection'
-init().then(res=>db.sequelize.close())
+import mongodb from './databases/mongo-connection'
+mongodb.then((mongoconnection)=>{
+    init().then(res=>db.sequelize.close()).then(()=>mongoconnection.disconnect())
+})
+
 

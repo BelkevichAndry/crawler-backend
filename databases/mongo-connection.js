@@ -1,6 +1,6 @@
 'use strict';
 import mongoose from 'mongoose'
 
-const db =  mongoose.connect('mongodb://localhost:27017/crawler', {useNewUrlParser: true});
+const mongodb =  mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true});
 
-export default db;
+export default mongodb;
