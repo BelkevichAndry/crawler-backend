@@ -1,6 +1,5 @@
-import db from './databases/mongo-connection'
-import init from './crawler'
 
- db.then(res=>{
-    return init().then(()=>  res.disconnect());
-});
+import init from './crawler'
+import db from './databases/postgress-connection'
+init().then(res=>db.sequelize.close())
+
