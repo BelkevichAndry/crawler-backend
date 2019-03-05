@@ -18,8 +18,8 @@ if (config.use_env_constiable) {
         pool: {
             max: 50,
             min: 0,
-            idle: 1,
-            acquire: 1
+            idle: 5000,
+            acquire: 5000
         }
     });
 }
