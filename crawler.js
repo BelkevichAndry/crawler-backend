@@ -15,6 +15,7 @@ const init = async () => {
         for (let tech of technologies) {
 
             try {
+                console.log("start tech ",tech)
 
                 let vacancyUrl = `https://api.hh.ru/vacancies?text=${tech.name}`;
 
@@ -23,9 +24,10 @@ const init = async () => {
 
                 const vacancies = [];
 
-                for (let i = 1; i < 2; i++) {
+                for (let i = 1; i <= pagesAmount-1; i++) {
                     let data = await get(i, vacancyUrl);
                     vacancies.push(data);
+                    console.log("page",i)
                 }
 
                 const flat = vacancies.flatten(2);
