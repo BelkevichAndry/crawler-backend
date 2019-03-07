@@ -5,7 +5,7 @@ import pg_technologies from './databases/queries/postgress/technologies/index'
 
 import get from './services/pages/page-scanner'
 import initial from './services/pages/initial-request'
-import frequency from './utils/frequency';
+import countFrequency from './utils/frequency';
 
 const init = async () => {
 
@@ -29,7 +29,7 @@ const init = async () => {
                 }
 
                 const flat = vacancies.flatten(2);
-                const frequency = frequency(flat)
+                const frequency = countFrequency(flat)
 
                 const sortedFreq = sort(frequency);
                 let technology = new Technology({name: tech.name, skills: JSON.stringify(sortedFreq)})
