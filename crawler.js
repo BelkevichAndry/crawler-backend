@@ -23,7 +23,7 @@ const init = async () => {
 
                 const vacancies = [];
 
-                for (let i = 1; i < pagesAmount; i++) {
+                for (let i = 1; i < 2; i++) {
                     let data = await get(i, vacancyUrl);
                     vacancies.push(data);
                 }
